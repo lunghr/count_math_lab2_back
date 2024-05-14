@@ -4,6 +4,9 @@ import com.lunghr.count_math_lab2.math.ServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class NewtonMethod {
@@ -14,7 +17,8 @@ public class NewtonMethod {
         return (x - (serviceUtils.calculateFunction(x) / serviceUtils.calculateDiffFunction(x)));
     }
 
-    public String executeNewtonMethod(Double a, Double b, Double accuracy) {
+    public List<Iteration> executeNewtonMethod(Double a, Double b, Double accuracy) {
+        List<Iteration> response = new ArrayList<>();
         Double x;
         Double epsilon = 1.0;
         if (serviceUtils.calculateFunction(a) * serviceUtils.calculateSecondDiffFunction(a) > 0) {
@@ -29,11 +33,12 @@ public class NewtonMethod {
             System.out.println("Epsilon: " + epsilon);
             x = calculateNewX(x);
             System.out.println("X: "+ x);
+            response.add(new Iteration(x, epsilon));
             if (epsilon < accuracy) {
-                return String.valueOf(x);
+                return response;
             }
             System.out.println("");
         }
-        return "oops";
+        return null;
     }
 }

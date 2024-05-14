@@ -14,6 +14,7 @@ public class RequestController {
 
     @GetMapping("/req")
     public String simpleGetReq(){
+        System.out.println("2");
         return "req was cathced";
     }
 }

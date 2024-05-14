@@ -7,6 +7,7 @@ import lombok.*;
 @Setter
 @Getter
 public class DiapasonRequest {
+    private String root;
     private Double a;
     private Double b;
     private Double accuracy;

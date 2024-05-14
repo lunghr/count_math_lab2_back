@@ -4,6 +4,9 @@ import com.lunghr.count_math_lab2.math.ServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class HalvingMethod {
@@ -13,11 +16,12 @@ public class HalvingMethod {
         return (a + b) / 2;
     }
 
-    public String executeHalvingMethod(Double a, Double b, Double accuracy) {
-
+    public List<Iteration> executeHalvingMethod(Double a, Double b, Double accuracy) {
+        List<Iteration> response = new ArrayList<>();
         double epsilon = 1.0;
         Double x;
         int counter = 0;
+
         while (epsilon > accuracy) {
             x = calculateNewX(a, b);
 //            System.out.println("x_" + counter + ": " + x);
@@ -31,12 +35,12 @@ public class HalvingMethod {
 
 //            System.out.println("a_" + counter + " and b_" + counter + ": " + a + ", " + b);
 
+            response.add(new Iteration(x, epsilon));
             if (epsilon < accuracy) {
-                return String.valueOf(x);
+                return response;
             }
-            counter++;
+            System.out.println("");
         }
-        return "oops";
-
+        return null;
     }
 }

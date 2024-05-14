@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/methods")
 @AllArgsConstructor
@@ -18,26 +20,44 @@ public class MethodsController {
     private final NewtonForSystems newtonForSystems;
 
 
-    @GetMapping("/res")
-    public ResponseEntity<String> calculateMethod(@RequestHeader("Calculation-method") String method, @RequestBody DiapasonRequest diapason) {
+    //    @GetMapping("/res")
+    @PostMapping("/res")
+    public ResponseEntity<List<?>> calculateMethod(@RequestHeader("CalculationMethod") String method, @RequestBody DiapasonRequest diapason) {
         Double a = diapason.getA();
         Double b = diapason.getB();
         Double accuracy = diapason.getAccuracy();
-
-        if ("Newton".equals(method)){
-            return ResponseEntity.ok(newtonMethod.executeNewtonMethod(a, b, accuracy));
+        String root = diapason.getRoot();
+        System.out.println("1");
+        if (root.equals("Left")) {
+            a = -4.0;
+            b = -3.0;
+        } else if (root.equals("Central")) {
+            a = -1.0;
+            b = 0.0;
+        } else if (root.equals("Right")) {
+            a = 1.0;
+            b = 2.0;
         }
-        if("Halving".equals(method)) {
+        System.out.println(a + " " + b);
+        if ("Newton".equals(method)) {
+            System.out.println("2");
+            return ResponseEntity.ok(newtonMethod.executeNewtonMethod(a, b, accuracy));
+
+        }
+        if ("Halving".equals(method)) {
+            System.out.println("2");
             return ResponseEntity.ok(halvingMethod.executeHalvingMethod(a, b, accuracy));
         }
-        if ("SimpleIteration".equals(method)){
+        if ("SimpleIteration".equals(method)) {
+            System.out.println("2");
             return ResponseEntity.ok(simpleIterationMethod.executeSimpleIterationMethod(a, b, accuracy));
         }
-        if ("NewtonForSystems".equals(method)){
+
+        if ("NewtonForSystems".equals(method)) {
+            System.out.println("2");
             return ResponseEntity.ok(newtonForSystems.executeNewtonMethodForSystems(a, b, accuracy));
-        }
-        else {
-            return ResponseEntity.ok("Unknown method");
+        } else {
+            return ResponseEntity.ok(null);
         }
     }
 }
