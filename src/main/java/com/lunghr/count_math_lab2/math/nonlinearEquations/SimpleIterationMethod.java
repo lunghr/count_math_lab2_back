@@ -9,21 +9,24 @@ import org.springframework.stereotype.Service;
 public class SimpleIterationMethod {
     private ServiceUtils serviceUtils = new ServiceUtils();
 
-    public String executeSimpleIterationMethod (Double a, Double b, Double accuracy){
-        Double x = b;
-        var lambda = serviceUtils.getLambda(a, b);
+    public String executeSimpleIterationMethod(Double a, Double b, Double accuracy) {
 
-        System.out.println(lambda);
         double epsilon = 1.0;
-        while (epsilon > accuracy){
-            System.out.println(1);
-            epsilon = Math.abs(serviceUtils.calculatePhiFunction(x, lambda) - x);
-            x = serviceUtils.calculatePhiFunction(x, lambda);
+        Double x;
 
+        if (Math.abs(serviceUtils.calculateDiffFunction(a)) > Math.abs(serviceUtils.calculateDiffFunction(b))) {
+            x = a;
+        } else {
+            x = b;
+        }
+        var lambda = serviceUtils.getLambda(a, b);
+        while (epsilon > accuracy) {
+            System.out.println(" ");
+            epsilon = Math.abs(serviceUtils.calculateLambdaPhiFunction(x, lambda) - x);
+            x = serviceUtils.calculateLambdaPhiFunction(x, lambda);
             if (epsilon < accuracy) {
                 return String.valueOf(x);
             }
-
         }
         return "oops";
     }

@@ -10,7 +10,7 @@ public class ServiceUtils {
         return 2.3 * Math.pow(x, 3) + 5.75 * Math.pow(x, 2) - 7.41 * x - 10.6;
     }
 
-    public Double calculatePhiFunction(Double x, Double lambda) {
+    public Double calculateLambdaPhiFunction(Double x, Double lambda) {
         return lambda * 2.3 * Math.pow(x, 3) + lambda * 5.75 * Math.pow(x, 2) - lambda * 7.41 * x + x - lambda * 10.6;
     }
 
@@ -23,8 +23,7 @@ public class ServiceUtils {
     }
 
     public Double getLambda(Double a, Double b) {
-        if (calculateDiffFunction(a) * calculateDiffFunction(b) > 0) {
-            System.out.println(Math.abs(calculateDiffFunction(a)) + "; " +  Math.abs(calculateDiffFunction(b)));
+        if (calculateDiffFunction(a) > 0 && calculateDiffFunction(b) > 0) {
             return (-1 / Math.max(Math.abs(calculateDiffFunction(a)), Math.abs(calculateDiffFunction(b))));
         } else {
             return (1 / Math.max(Math.abs(calculateDiffFunction(a)), Math.abs(calculateDiffFunction(b))));

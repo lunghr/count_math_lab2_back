@@ -17,7 +17,7 @@ public class HalvingMethod {
 
         double epsilon = 1.0;
         Double x;
-//        int counter = 0;
+        int counter = 0;
         while (epsilon > accuracy) {
             x = calculateNewX(a, b);
 //            System.out.println("x_" + counter + ": " + x);
@@ -34,7 +34,7 @@ public class HalvingMethod {
             if (epsilon < accuracy) {
                 return String.valueOf(x);
             }
-//            counter++;
+            counter++;
         }
         return "oops";
 
