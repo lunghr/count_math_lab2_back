@@ -16,7 +16,8 @@ public class HalvingMethod {
         return (a + b) / 2;
     }
 
-    public List<Iteration> executeHalvingMethod(Double a, Double b, Double accuracy) {
+    public List<Iteration> executeHalvingMethod(Double a, Double b, Double accuracy, Integer equation) {
+        serviceUtils.setArgs(equation);
         List<Iteration> response = new ArrayList<>();
         double epsilon = 1.0;
         Double x;

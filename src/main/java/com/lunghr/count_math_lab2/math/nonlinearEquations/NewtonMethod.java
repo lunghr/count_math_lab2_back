@@ -17,7 +17,8 @@ public class NewtonMethod {
         return (x - (serviceUtils.calculateFunction(x) / serviceUtils.calculateDiffFunction(x)));
     }
 
-    public List<Iteration> executeNewtonMethod(Double a, Double b, Double accuracy) {
+    public List<Iteration> executeNewtonMethod(Double a, Double b, Double accuracy, Integer equation) {
+        serviceUtils.setArgs(equation);
         List<Iteration> response = new ArrayList<>();
         Double x;
         Double epsilon = 1.0;

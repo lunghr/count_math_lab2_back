@@ -6,20 +6,27 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ServiceUtils {
+
+    private static Double A;
+    private static Double B;
+    private static Double C;
+    private static Double D;
+
+
     public Double calculateFunction(Double x) {
-        return 2.3 * Math.pow(x, 3) + 5.75 * Math.pow(x, 2) - 7.41 * x - 10.6;
+        return A * Math.pow(x, 3) + B * Math.pow(x, 2) + C * x + D;
     }
 
     public Double calculateLambdaPhiFunction(Double x, Double lambda) {
-        return lambda * 2.3 * Math.pow(x, 3) + lambda * 5.75 * Math.pow(x, 2) - lambda * 7.41 * x + x - lambda * 10.6;
+        return lambda * A * Math.pow(x, 3) + lambda * B * Math.pow(x, 2) + lambda * C * x + x + lambda * D;
     }
 
     public Double calculateDiffFunction(Double x) {
-        return 6.9 * Math.pow(x, 2) + 11.5 * x - 7.41;
+        return A * 3 * Math.pow(x, 2) + B * 2 * x + C;
     }
 
     public Double calculateSecondDiffFunction(Double x) {
-        return 13.8 * x + 11.5;
+        return A * 6 * x + B * 2;
     }
 
     public Double getLambda(Double a, Double b) {
@@ -27,6 +34,29 @@ public class ServiceUtils {
             return (-1 / Math.max(Math.abs(calculateDiffFunction(a)), Math.abs(calculateDiffFunction(b))));
         } else {
             return (1 / Math.max(Math.abs(calculateDiffFunction(a)), Math.abs(calculateDiffFunction(b))));
+        }
+    }
+
+
+    public void setArgs(Integer equation) {
+        if (equation.equals(1)) {
+            A = 2.3;
+            B = 5.75;
+            C = -7.41;
+            D = -10.6;
+        }
+        else if (equation.equals(2)){
+            A = 2.74;
+            B = -1.93;
+            C = -15.28;
+            D = -3.72;
+        }
+
+        else if (equation.equals(3)){
+            A = 1.0;
+            B = 2.84;
+            C = -5.606;
+            D = -14.766;
         }
     }
 }

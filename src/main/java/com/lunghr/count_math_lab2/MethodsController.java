@@ -26,38 +26,42 @@ public class MethodsController {
         Double a = diapason.getA();
         Double b = diapason.getB();
         Double accuracy = diapason.getAccuracy();
+        Integer equation = diapason.getEquation();
         String root = diapason.getRoot();
-        System.out.println("1");
-        if (root.equals("Left")) {
-            a = -4.0;
-            b = -3.0;
-        } else if (root.equals("Central")) {
-            a = -1.0;
-            b = 0.0;
-        } else if (root.equals("Right")) {
-            a = 1.0;
-            b = 2.0;
-        }
-        System.out.println(a + " " + b);
-        if ("Newton".equals(method)) {
-            System.out.println("2");
-            return ResponseEntity.ok(newtonMethod.executeNewtonMethod(a, b, accuracy));
+        if (diapason.getType().equals("nonlinear")) {
+            if (root.equals("Left")) {
+                a = -4.0;
+                b = -3.0;
+            } else if (root.equals("Central")) {
+                a = -1.0;
+                b = 0.0;
+            } else if (root.equals("Right")) {
+                a = 1.0;
+                b = 2.0;
+            }
+            System.out.println(a + " " + b);
+
+            if ("Newton".equals(method)) {
+                System.out.println("2");
+                return ResponseEntity.ok(newtonMethod.executeNewtonMethod(a, b, accuracy, equation));
+
+            }
+            if ("Halving".equals(method)) {
+                System.out.println("2");
+                return ResponseEntity.ok(halvingMethod.executeHalvingMethod(a, b, accuracy, equation));
+            }
+            if ("SimpleIteration".equals(method)) {
+                System.out.println("2");
+                return ResponseEntity.ok(simpleIterationMethod.executeSimpleIterationMethod(a, b, accuracy, equation));
+            }
 
         }
-        if ("Halving".equals(method)) {
-            System.out.println("2");
-            return ResponseEntity.ok(halvingMethod.executeHalvingMethod(a, b, accuracy));
-        }
-        if ("SimpleIteration".equals(method)) {
-            System.out.println("2");
-            return ResponseEntity.ok(simpleIterationMethod.executeSimpleIterationMethod(a, b, accuracy));
-        }
-
         if ("NewtonForSystems".equals(method)) {
             System.out.println("2");
-            return ResponseEntity.ok(newtonForSystems.executeNewtonMethodForSystems(a, b, accuracy));
+            return ResponseEntity.ok(newtonForSystems.executeNewtonMethodForSystems(a, b, accuracy, equation));
         } else {
             return ResponseEntity.ok(null);
         }
     }
 }
+

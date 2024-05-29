@@ -8,6 +8,8 @@ import lombok.*;
 @Getter
 public class DiapasonRequest {
     private String root;
+    private Integer equation;
+    private String type;
     private Double a;
     private Double b;
     private Double accuracy;

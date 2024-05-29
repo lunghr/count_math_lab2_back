@@ -12,7 +12,8 @@ import java.util.List;
 public class SimpleIterationMethod {
     private ServiceUtils serviceUtils = new ServiceUtils();
 
-    public List<Iteration> executeSimpleIterationMethod(Double a, Double b, Double accuracy) {
+    public List<Iteration> executeSimpleIterationMethod(Double a, Double b, Double accuracy, Integer equation) {
+        serviceUtils.setArgs(equation);
         List<Iteration> response = new ArrayList<>();
         double epsilon = 1.0;
         Double x;
@@ -24,10 +25,12 @@ public class SimpleIterationMethod {
             x = b;
         }
         var lambda = serviceUtils.getLambda(a, b);
+        System.out.println(lambda);
         while (epsilon > accuracy) {
             System.out.println(" ");
             epsilon = Math.abs(serviceUtils.calculateLambdaPhiFunction(x, lambda) - x);
             x = serviceUtils.calculateLambdaPhiFunction(x, lambda);
+            System.out.println(x + " " + lambda);
             response.add(new Iteration(x, epsilon));
             if (epsilon < accuracy) {
                 return response;

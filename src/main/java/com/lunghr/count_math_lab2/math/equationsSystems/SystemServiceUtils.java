@@ -7,65 +7,96 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SystemServiceUtils {
 
-    public Double calculateDeltaXConst(Double x, Double y, int eq_num) {
-        if (eq_num == 1) {
-            return Math.cos(x + y) - 1.4;
+    public Double calculateDeltaXConst(Double x, Double y, int eq_num, Integer equation) {
+        if (equation.equals(1)) {
+            if (eq_num == 1) {
+                return Math.cos(x + y) - 1.4;
+            } else {
+                return 2 * x;
+            }
+        } else if (equation.equals(2)) {
+            if (eq_num == 1) {
+                return Math.cos(x + 0.5);
+            } else {
+                return 1.0;
+            }
         } else {
-            return 2 * x;
+            if (eq_num == 1) {
+                return Math.cos(x + y) - 1.5;
+            } else {
+                return 2 * x;
+            }
         }
     }
 
 
-    public Double calculateDeltaYConst(Double x, Double y, int eq_num) {
-        if (eq_num == 1) {
-            return Math.cos(x + y);
+    public Double calculateDeltaYConst(Double x, Double y, int eq_num, Integer equation) {
+        if (equation.equals(1)) {
+            if (eq_num == 1) {
+                return Math.cos(x + y);
+            } else {
+                return 2 * y;
+            }
+        } else if (equation.equals(2)) {
+            if (eq_num == 1) {
+                return -1.0;
+            } else {
+                return Math.sin(y - 2) * (-1);
+            }
         } else {
-            return 2 * y;
+            if (eq_num == 1) {
+                return Math.cos(x + y);
+            } else {
+                return 4 * y;
+            }
         }
     }
 
 
-    public Double calculateFreeConst(Double x, Double y, int eq_num) {
-        if (eq_num == 1) {
-            return (-1) * (Math.sin(x + y) - 1.4 * x);
+    public Double calculateFreeConst(Double x, Double y, int eq_num, Integer equation) {
+        if (equation.equals(1)) {
+            if (eq_num == 1) {
+                return (-1) * (Math.sin(x + y) - 1.4 * x);
+            } else {
+                return (-1) * (Math.pow(x, 2) + Math.pow(y, 2) - 1);
+            }
+        } else if (equation.equals(2)) {
+            if (eq_num == 1) {
+                return (-1) * (Math.sin(x + 0.5) - y - 1);
+            } else {
+                return (-1) * (Math.cos(y - 2) + x);
+            }
         } else {
-            return (-1) * (Math.pow(x, 2) + Math.pow(y, 2) - 1);
+            if (eq_num == 1) {
+                return (-1) * (Math.sin(x + y) - 1.5 * x + 0.1);
+            } else {
+                return (-1) * (Math.pow(x, 2) + 2 * Math.pow(y, 2) - 1);
+            }
         }
     }
 
 
-    public Double calculateDeltaY(Double x, Double y) {
-        return (calculateFreeConst(x, y, 2) - (calculateFreeConst(x, y, 1) * calculateDeltaXConst(x, y, 2) / calculateDeltaXConst(x, y, 1))) /
-                ((-1) * calculateDeltaYConst(x, y, 1) / calculateDeltaXConst(x, y, 1) * calculateDeltaXConst(x, y, 2) +
-                        calculateDeltaYConst(x, y, 2));
+    public Double calculateDeltaY(Double x, Double y, Integer equation) {
+        return (calculateFreeConst(x, y, 2, equation) - (calculateFreeConst(x, y, 1, equation) * calculateDeltaXConst(x, y, 2, equation) / calculateDeltaXConst(x, y, 1, equation))) /
+                ((-1) * calculateDeltaYConst(x, y, 1, equation) / calculateDeltaXConst(x, y, 1, equation) * calculateDeltaXConst(x, y, 2, equation) +
+                        calculateDeltaYConst(x, y, 2, equation));
     }
 
-    public Double calculateDeltaX(Double x, Double y) {
-        return (calculateFreeConst(x, y, 1) - calculateDeltaYConst(x, y, 1) * calculateDeltaY(x, y)) /
-                calculateDeltaXConst(x, y, 1);
+    public Double calculateDeltaX(Double x, Double y, Integer equation) {
+        return (calculateFreeConst(x, y, 1, equation) - calculateDeltaYConst(x, y, 1, equation) * calculateDeltaY(x, y, equation)) /
+                calculateDeltaXConst(x, y, 1, equation);
 
     }
 
-    public Double calculateX(Double x, Double y) {
-        return x + calculateDeltaX(x, y);
+    public Double calculateX(Double x, Double y, Integer equation) {
+        return x + calculateDeltaX(x, y, equation);
     }
 
-    public Double calculateY(Double x, Double y) {
-        return y + calculateDeltaY(x, y);
+    public Double calculateY(Double x, Double y, Integer equation) {
+        return y + calculateDeltaY(x, y, equation);
     }
 
-    public Double calculateEpsilon(Double x, Double y) {
-//        System.out.println(" ");
-//        System.out.println("DeltaXConst1: " + calculateDeltaXConst(x, y, 1));
-//        System.out.println("DeltaXConst2: " + calculateDeltaXConst(x, y, 2));
-//        System.out.println("DeltaYConst1: " + calculateDeltaYConst(x, y, 1));
-//        System.out.println("DeltaYConst2: " + calculateDeltaYConst(x, y, 2));
-//        System.out.println("DeltaFreeConst1: " + calculateFreeConst(x, y, 1));
-//        System.out.println("DeltaFreeConst2: " + calculateFreeConst(x, y, 2));
-//        System.out.println("DeltaX: " + calculateDeltaX(x, y));
-//        System.out.println("DeltaY: " + calculateDeltaY(x, y));
-//        System.out.println("X: " + calculateX(x, y));
-//        System.out.println("Y: " + calculateY(x, y));
-        return Math.max(Math.abs(calculateX(x, y) - x), Math.abs(calculateY(x, y) - y));
+    public Double calculateEpsilon(Double x, Double y, Integer equation) {
+        return Math.max(Math.abs(calculateX(x, y, equation) - x), Math.abs(calculateY(x, y, equation) - y));
     }
 }
